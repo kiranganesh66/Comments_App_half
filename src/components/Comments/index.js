@@ -4,27 +4,29 @@ import {v4 as uuidv4} from 'uuid'
 
 import CommentItem from '../CommentItem'
 
-const initialContainerBackgroundClassNames = [
-  'amber',
-  'blue',
-  'orange',
-  'emerald',
-  'teal',
-  'red',
-  'light-blue',
-]
+// const initialContainerBackgroundClassNames = [
+//   'amber',
+//   'blue',
+//   'orange',
+//   'emerald',
+//   'teal',
+//   'red',
+//   'light-blue',
+// ]
 
-const newlist = [
-  {
-    id: '',
-    name: '',
-    comment: '',
-    islike: false,
-  },
-]
+const newlist = []
 
 class Comments extends Component {
-  state = {updatedlist: newlist, name: '', comment: ''}
+  state = {updatedlist: newlist, name: '', comment: '', count: 0}
+
+  onDElete = id => {
+    const {updatedlist} = this.state
+    const filterlist = updatedlist.filter(eachone => eachone.id !== id)
+
+    this.setState({updatedlist: filterlist})
+
+    this.setState(prevState => ({count: prevState.count - 1}))
+  }
 
   onSubmit = event => {
     event.preventDefault()
@@ -38,7 +40,10 @@ class Comments extends Component {
     }
     this.setState(prevState => ({
       updatedlist: [...prevState.updatedlist, addList],
+      count: prevState.count + 1,
     }))
+
+    this.setState({name: '', comment: ''})
   }
 
   onChangeName = event => {
@@ -49,8 +54,19 @@ class Comments extends Component {
     this.setState({comment: event.target.value})
   }
 
+  likeButtonChanging = id => {
+    this.setState(prevState => ({
+      updatedlist: prevState.updatedlist.map(each => {
+        if (each.id === id) {
+          return {...each, islike: !each.islike}
+        }
+        return each
+      }),
+    }))
+  }
+
   render() {
-    const {updatedlist} = this.state
+    const {updatedlist, count} = this.state
     return (
       <div className="Miain_bg">
         <h1 className="heading">Comments</h1>
@@ -89,9 +105,9 @@ class Comments extends Component {
         <hr />
 
         <div>
-          <span className="CommentCount">0</span>
+          <span className="CommentCount">{count}</span>
           <span className="Comments">Comments</span>
-          <ul>
+          <ul className="unOrdLst">
             {updatedlist.map(eachOne => (
               <CommentItem
                 key={eachOne.id}
@@ -99,6 +115,8 @@ class Comments extends Component {
                 initialContainerBackgroundClassNames={
                   this.initialContainerBackgroundClassNames
                 }
+                likeButtonChanging={this.likeButtonChanging}
+                onDElete={this.onDElete}
               />
             ))}
           </ul>
