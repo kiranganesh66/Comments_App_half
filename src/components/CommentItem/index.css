@@ -27,16 +27,37 @@
 }
 
 /* Write your CSS here */
-.Name {
-  font-size: 18px;
-  font-family: 'Roboto';
-  font-weight: 500;
-}
 .list {
   list-style-type: none;
 }
-.bg {
+
+.Name {
+  font-size: 17px;
+  font-family: 'Roboto';
+  font-weight: 500;
+  color: black;
+}
+.list {
+  list-style-type: none;
+  padding-left: 0px;
+}
+.logo {
   background-color: #b91c1c;
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Comment_contan {
+  display: flex;
+}
+.nameCmmt_CNtr {
+  margin-left: 10px;
+}
+
+.btn-contanier {
+  display: flex;
+  justify-content: space-between;
 }
